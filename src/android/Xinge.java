@@ -80,17 +80,26 @@ public class Xinge extends CordovaPlugin {
 
     //配置accessId
     public boolean setAccessId(JSONArray args){
-        long id = args.getLong(0);
-        XGPushConfig.setAccessId(this.cordova.getActivity(), id);
+        try{
+            long id = args.getLong(0);
+            XGPushConfig.setAccessId(this.cordova.getActivity(), id);
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+            return false;
+        } 
         return true;
     }
     //配置accessKey
     public boolean setAccessKey(JSONArray args){
-        String key = args.getString(0);
-        XGPushConfig.setAccessId(this.cordova.getActivity(), key);
+        try{
+            String key = args.getString(0);
+            XGPushConfig.setAccessKey(this.cordova.getActivity(), key);
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+            return false;
+        } 
         return true;
     }
-
 
     //XGPushConfig配置类结束
 

@@ -7,13 +7,13 @@
     <name>xinge</name>
     <description>腾讯信鸽Cordova插件。</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,xinge, 信鸽</keywords>
+    <keywords>cordova, xinge, 信鸽</keywords>
     <repo>https://github.com/iiunknown/cordova.xinge.git</repo>
     <issue></issue>
 
 
-    <js-module src="www/xinge.js" name="xinge">
-        <clobbers target="xinge" />
+    <js-module src="www/xinge.js" name="xingePlugin">
+        <clobbers target="xingePlugin" />
     </js-module>
 
     <!-- android -->
