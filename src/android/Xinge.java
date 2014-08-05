@@ -18,7 +18,7 @@ import com.tencent.android.tpush.*;
 供js脚本调用。
 */
 public class Xinge extends CordovaPlugin {
-	/**
+    /**
      * 执行js传递过来的请求。
      *
      * @param action            需要执行的命令。
@@ -27,11 +27,9 @@ public class Xinge extends CordovaPlugin {
      * @return                  bool值。
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-    	Log.d("TPush", "execute action:"+action+" with args:"+args);
-    	 if ("register".equals(action)) {
-    		 String account = args.getString(0);
-             // return register(account,callbackContext);
-             return register();
+        Log.d("TPush", "execute action:"+action+" with args:"+args);
+         if ("register".equals(action)) {
+             return register(args, callbackContext);
          }
          else if ("setAccessId".equals(action)){
             return setAccessId(args);
@@ -39,39 +37,37 @@ public class Xinge extends CordovaPlugin {
          else if ("setAccessKey".equals(action)){
             return setAccessKey(args);
          }
+         else if ("getToken".equals(action)){
+            return getToken(callbackContext);
+         }
          return false;
     }
     
     // XGPushManager功能类方法代理开始
 
     //启动并注册APP
-    public boolean register(String account,final CallbackContext callbackContext) {
-    	XGPushManager.registerPush(this.cordova.getActivity(), account,
-    			new XGIOperateCallback() {
-    				@Override
-    				public void onSuccess(Object data, int flag) {
-    					Log.d("TPush", "register sucess:device token is:" + data);
-    					callbackContext.success("{success:true,data:'"+data+"'}");
-    				}
-    				@Override
-    				public void onFail(Object data, int errCode, String msg) {
-    					Log.d("TPush", "register failed,error code:" + errCode + ",error msg:" + msg);
-    					callbackContext.error("{success:false,errCode:'"+errCode+"',msg:'"+msg+"'}");
-    				}
-    			});
-    	return true;
-    }
-    
-    public boolean register(){
-        XGPushManager.registerPush(this.cordova.getActivity());
+    public boolean register(JSONArray args,final CallbackContext callbackContext){
+        try{
+            int count = args.length();
+            if (count == 0){
+                XGPushManager.registerPush(this.cordova.getActivity());
+            }
+            else if (count == 1){
+                String account = args.getString(0);
+                XGPushManager.registerPush(this.cordova.getActivity(), account);
+            }
+        } catch(Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+            return false;
+        } 
         return true;
     }
 
     public boolean unregister(final CallbackContext callbackContext) {
-    	XGPushManager.unregisterPush(this.cordova.getActivity());
-    	callbackContext.success();
-    	Log.d("TPush", "unregister push sucess");
-    	return true;
+        XGPushManager.unregisterPush(this.cordova.getActivity());
+        callbackContext.success();
+        Log.d("TPush", "unregister push sucess");
+        return true;
     }
     // XGPushManager功能类方法代理结束
 
@@ -98,6 +94,18 @@ public class Xinge extends CordovaPlugin {
             System.err.println("Exception: " + e.getMessage());
             return false;
         } 
+        return true;
+    }
+    //获取设备的token，只有注册成功才能获取到正常的结果。
+    public boolean getToken(final CallbackContext callbackContext){
+        try{
+            String token = XGPushConfig.getToken(this.cordova.getActivity());
+            callbackContext.success(""+token);
+        } catch (Exception e){
+            System.err.println("Exception: " + e.getMessage());
+            callbackContext.error(""+e.getMessage());
+            return false;
+        }
         return true;
     }
 
