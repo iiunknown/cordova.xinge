@@ -31,6 +31,9 @@ public class Xinge extends CordovaPlugin {
          if ("register".equals(action)) {
              return register(args, callbackContext);
          }
+         else if ("unregister".equals(action)){
+             return unregister(callbackContext);
+         }
          else if ("setAccessId".equals(action)){
             return setAccessId(args);
          }
@@ -96,7 +99,7 @@ public class Xinge extends CordovaPlugin {
         } 
         return true;
     }
-    //获取设备的token，只有注册成功才能获取到正常的结果。
+    //获取设备的token，只有注册成功才能获取到正常的结果
     public boolean getToken(final CallbackContext callbackContext){
         try{
             String token = XGPushConfig.getToken(this.cordova.getActivity());
