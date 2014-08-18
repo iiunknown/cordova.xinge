@@ -121,7 +121,8 @@
         </config-file>
         <header-file src="src/ios/libs/XGPush.h" />
         <header-file src="src/ios/CDVXinge.h" />
-        <header-file src="src/ios/libs/libXG-SDK.a" />
+	    <source-file src="src/ios/CDVXinge.m" />
+        <source-file src="src/ios/libs/libXG-SDK.a" />
         <framework src="libsqlite3.dylib" />
         <framework src="CFNetwork.framework" />
         <framework src="SystemConfiguration.framework" />
