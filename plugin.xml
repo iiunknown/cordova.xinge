@@ -123,11 +123,11 @@
         <header-file src="src/ios/CDVXinge.h" />
 	    <source-file src="src/ios/CDVXinge.m" />
         <source-file src="src/ios/libs/libXG-SDK.a" framework="true" />
-        <framework src="libsqlite3.dylib" />
-        <framework src="CFNetwork.framework" />
-        <framework src="SystemConfiguration.framework" />
-        <framework src="CoreTelephony.framework" />
-        <framework src="libz.dylib" />
+        <source-file src="libsqlite3.dylib" framework="true" />
+        <source-file src="CFNetwork.framework" framework="true" />
+        <source-file src="SystemConfiguration.framework" framework="true" />
+        <source-file src="CoreTelephony.framework" framework="true" />
+        <source-file src="libz.dylib" framework="true" />
     </platform>
 
 </plugin>
