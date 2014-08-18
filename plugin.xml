@@ -112,5 +112,22 @@
 		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
 
      </platform>
+    <!-- ios -->
+    <platform name="ios">    
+        <config-file target="config.xml" parent="/*">
+            <feature name="Xinge">
+                <param name="ios-package" value="CDVXinge" /> 
+            </feature>
+        </config-file>
+        <header-file src="src/ios/libs/XGPush.h" />
+        <header-file src="src/ios/CDVXinge.h" />
+	    <source-file src="src/ios/CDVXinge.m" />
+        <framework src="libsqlite3.dylib" />
+        <framework src="CFNetwork.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="libz.dylib" />
+        <framework src="src/ios/libs/libXG-SDK.a" />
+    </platform>
 
 </plugin>
