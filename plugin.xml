@@ -51,7 +51,15 @@
 		            <data android:scheme="file" />
 		        </intent-filter>
 		    </receiver>
-
+		    <!-- 自定义消息接收器 -->
+			<receiver android:name="com.iiunknown.cordova.xinge.XGPushCordovaReceiver" >
+				<intent-filter>
+					<!-- message  -->
+					<action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
+					<!-- other event -->
+					<action android:name="com.tencent.android.tpush.action.FEEDBACK" />
+				</intent-filter>
+			</receiver>
 		    <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
 		    <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
 		     <activity
