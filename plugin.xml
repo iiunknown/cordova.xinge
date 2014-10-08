@@ -132,7 +132,7 @@
         <header-file src="src/ios/libs/XGPush.h" />
         <header-file src="src/ios/CDVXinge.h" />
 	    <source-file src="src/ios/CDVXinge.m" />
-        <framework src="CFNetwork.framework"  framework="true"/>
+        <framework src="CFNetwork.framework" />
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="libz.dylib" />
