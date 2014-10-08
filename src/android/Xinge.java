@@ -62,7 +62,9 @@ public class Xinge extends CordovaPlugin {
                 String account = args.getString(0);
                 XGPushManager.registerPush(this.cordova.getActivity(), account);
             }
+            callbackContext.success();
         } catch(Exception e) {
+            callbackContext.error("Exception: " + e.getMessage());
             System.err.println("Exception: " + e.getMessage());
             return false;
         } 
