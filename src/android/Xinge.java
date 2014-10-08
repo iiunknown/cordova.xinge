@@ -40,6 +40,9 @@ public class Xinge extends CordovaPlugin {
          else if ("setAccessKey".equals(action)){
             return setAccessKey(args);
          }
+         else if ("config".equals(action)){
+            return config(args, callbackContext);
+         }
          else if ("getToken".equals(action)){
             return getToken(callbackContext);
          }
@@ -77,6 +80,23 @@ public class Xinge extends CordovaPlugin {
     //XGPushConfig配置类开始
     //XGPushConfig提供信鸽服务的对外配置API列表，方法默认为public static类型，对于本类提供的set和enable方法，要在XGPushManager接口前调用才能及时生效。
 
+    //配置App，设置Xinge的AccessId和AccessKey。
+    public boolean config(JSONArray args, final CallbackContext callbackContext){
+        try{
+            Long accessId = args.getLong(0);
+            String accessKey = args.getString(1);
+            XGPushConfig.setAccessId(this.cordova.getActivity(), accessId);
+            XGPushConfig.setAccessKey(this.cordova.getActivity(), accessKey);
+            XGPushManager.onActivityStarted(this.cordova.getActivity());
+            callbackContext.success();
+        }
+        catch(Exception e){
+            callbackContext.error("Exception: " + e.getMessage());
+            System.err.println("Exception: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
     //配置accessId
     public boolean setAccessId(JSONArray args){
         try{

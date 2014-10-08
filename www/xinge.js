@@ -26,6 +26,10 @@ xingePlugin.setAccessKey = function(accessKey){
 xingePlugin.getToken = function(successCallback, errorCallback){
 	cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
 }
+//配置accessId和accessKey
+xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
+};
 //XGPushConfig配置类结束
 
 module.exports = xingePlugin;
