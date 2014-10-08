@@ -101,7 +101,7 @@
         </config-file>
 
         <source-file src="src/android/Xinge.java" target-dir="src/iiunknown/cordova/xinge" />
-		<!-- <source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/iiunknown/cordova/xinge" /> -->
+		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/iiunknown/cordova/xinge" />
 		<source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/mid-sdk-2.10.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />

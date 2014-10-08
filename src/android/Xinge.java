@@ -46,6 +46,9 @@ public class Xinge extends CordovaPlugin {
          else if ("getToken".equals(action)){
             return getToken(callbackContext);
          }
+         else if("onMessage".equals(action)) {
+             return onMessage(callbackContext);
+         }
          return false;
     }
     
@@ -136,4 +139,12 @@ public class Xinge extends CordovaPlugin {
 
     //XGPushConfig配置类结束
 
+
+    public boolean onMessage(final CallbackContext callbackContext) {
+        XGPushCordovaReceiver.msgCallbackContext = callbackContext;
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        callbackContext.sendPluginResult(pluginResult);
+        return true;
+    }
 }

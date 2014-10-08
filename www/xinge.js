@@ -32,4 +32,19 @@ xingePlugin.config = function(accessId, accessKey, successCallback, errorCallbac
 };
 //XGPushConfig配置类结束
 
+
+xingePlugin.onMessage = function (successCallback, errorCallback) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("Xinge.onMessage failure: success callback parameter must be a function");
+        return;
+    }
+	
+    cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
+};
+
 module.exports = xingePlugin;
