@@ -3,9 +3,9 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.iiunknown.cordova.xinge"
-    version="0.0.2">
+    version="0.0.1">
     <name>xinge</name>
-    <description>腾讯信鸽Cordova插件。基于信鸽v2.34。</description>
+    <description>腾讯信鸽Cordova插件。基于信鸽V2.31。</description>
     <license>Apache 2.0</license>
     <keywords>cordova, xinge, 信鸽</keywords>
     <repo>https://github.com/iiunknown/cordova.xinge.git</repo>
@@ -24,7 +24,7 @@
             </feature>
         </config-file>
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-		   <!-- 【必须】 信鸽receiver广播接收 -->
+			   <!-- 【必须】 信鸽receiver广播接收 -->
 		    <receiver
 		        android:name="com.tencent.android.tpush.XGPushReceiver"
 		        android:process=":xg_service_v2" >
@@ -58,7 +58,6 @@
 		         android:name="com.tencent.android.tpush.XGPushActivity"
 		         android:exported="false" >
 		         <intent-filter>
-		            <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
 		             <action android:name="" />
 		         </intent-filter>
 		    </activity>
@@ -69,15 +68,6 @@
 		        android:exported="true"
 		        android:persistent="true"
 		        android:process=":xg_service_v2" />
-		 
-		    <!-- 【必须】 通知service，此选项有助于提高抵达率 -->
-		    <service
-		        android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-		        android:exported="true" >
-		        <intent-filter>
-		            <action android:name="应用包名.PUSH_ACTION" />
-		        </intent-filter>
-		    </service>
 
 		    <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
 		    <meta-data 
@@ -112,10 +102,10 @@
 
         <source-file src="src/android/Xinge.java" target-dir="src/iiunknown/cordova/xinge" />
 		<!-- <source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/iiunknown/cordova/xinge" /> -->
-		<!-- <source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" /> -->
+		<source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/mid-sdk-2.10.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/Xg_sdk_v2.34.jar" target-dir="libs/" />
+		<source-file src="src/android/libs/Xg_sdk_v2.31.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/x86/libtpnsSecurity.so" target-dir="libs/x86/" />
 		<source-file src="src/android/libs/mips/libtpnsSecurity.so" target-dir="libs/mips/" />
 		<source-file src="src/android/libs/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a/" />
@@ -132,7 +122,7 @@
         <header-file src="src/ios/libs/XGPush.h" />
         <header-file src="src/ios/CDVXinge.h" />
 	    <source-file src="src/ios/CDVXinge.m" />
-        <framework src="CFNetwork.framework" />
+        <framework src="CFNetwork.framework"  framework="true"/>
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="libz.dylib" />
