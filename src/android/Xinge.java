@@ -49,6 +49,11 @@ public class Xinge extends CordovaPlugin {
          else if("onMessage".equals(action)) {
              return onMessage(callbackContext);
          }
+         else if("notify".equals(action)) {
+             String title = args.getString(0);
+             String content = args.getString(1);
+             return notify(title,content,callbackContext);
+         }
          return false;
     }
     
@@ -145,6 +150,17 @@ public class Xinge extends CordovaPlugin {
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
+        return true;
+    }
+
+    public boolean notify(String title,String content,final CallbackContext callbackContext) {
+        XGLocalMessage localMessage = new XGLocalMessage();
+        localMessage.setContent(content);
+        localMessage.setTitle(title);
+        localMessage.setType(1);
+        //localMessage.setBuilderId(XGPushConfig.);
+        Long msgId = XGPushManager.addLocalNotification(this.cordova.getActivity(),localMessage);
+        callbackContext.success(""+msgId);
         return true;
     }
 }

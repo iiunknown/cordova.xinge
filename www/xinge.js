@@ -46,5 +46,16 @@ xingePlugin.onMessage = function (successCallback, errorCallback) {
 	
     cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
 };
-
+xingePlugin.notify = function (title,content,successCallback, errorCallback) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+	if (successCallback == null) {
+        successCallback = function (data) {
+			console.log("notify "+title+":"+data);
+        }
+    }
+    cordova.exec(successCallback, errorCallback, "Xinge", "notify", [title,content]);
+};
 module.exports = xingePlugin;
