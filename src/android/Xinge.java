@@ -152,6 +152,14 @@ public class Xinge extends CordovaPlugin {
         callbackContext.sendPluginResult(pluginResult);
         return true;
     }
+    
+    public boolean onOpen(final CallbackContext callbackContext) {
+        XGPushCordovaReceiver.openCallbackContext = callbackContext;
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        callbackContext.sendPluginResult(pluginResult);
+        return true;
+    }
 
     public boolean notify(String title,String content,final CallbackContext callbackContext) {
         XGLocalMessage localMessage = new XGLocalMessage();
