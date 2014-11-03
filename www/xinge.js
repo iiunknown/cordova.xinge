@@ -46,6 +46,21 @@ xingePlugin.onMessage = function (successCallback, errorCallback) {
 	
     cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
 };
+
+xingePlugin.onOpen = function (successCallback, errorCallback) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("Xinge.onOpen failure: success callback parameter must be a function");
+        return;
+    }
+	
+    cordova.exec(successCallback, errorCallback, "Xinge", "onOpen", []);
+};
+
 xingePlugin.notify = function (title,content,successCallback, errorCallback) {
     if (errorCallback == null) {
         errorCallback = function () {
