@@ -5,7 +5,7 @@
 ## 安装
 
 ```
-$ cordova plugin add https://github.com/iiunknown/cordova.xinge.git
+$ cordova plugin add https://github.com/eleme/cordova.xinge.git
 ```
 
 ## 使用
