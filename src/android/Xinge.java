@@ -49,6 +49,9 @@ public class Xinge extends CordovaPlugin {
          else if("onMessage".equals(action)) {
              return onMessage(callbackContext);
          }
+         else if("onOpen".equals(action)) {
+             return onOpen(callbackContext);
+         }
          else if("notify".equals(action)) {
              String title = args.getString(0);
              String content = args.getString(1);
