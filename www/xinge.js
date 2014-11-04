@@ -73,4 +73,13 @@ xingePlugin.notify = function (title,content,successCallback, errorCallback) {
     }
     cordova.exec(successCallback, errorCallback, "Xinge", "notify", [title,content]);
 };
+
+if (!window.plugins) {
+    window.plugins = {};
+}
+
+if (!window.plugins.xingePlugin) {
+    window.plugins.xingePlugin = xingePlugin;
+}
+
 module.exports = xingePlugin;
