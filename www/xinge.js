@@ -3,7 +3,10 @@ var xingePlugin = {};
 
 // XGPushManager功能类方法代理开始
 //启动并注册APP，同时绑定账号。
-xingePlugin.register = function (account, successCallback, errorCallback) {
+xingePlugin.register = function (successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "Xinge", "register");
+};
+xingePlugin.registerAccount = function (account, successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "Xinge", "register", [account]);
 };
 //反注册，建议在不需要接收推送的时候调用。

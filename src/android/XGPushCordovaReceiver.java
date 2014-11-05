@@ -1,4 +1,4 @@
-package com.iiunknown.cordova.xinge;
+package com.eleme.cordova.xinge;
 
 import java.util.HashMap;
 import java.util.Map;

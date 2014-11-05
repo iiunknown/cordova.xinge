@@ -1,4 +1,4 @@
-package com.iiunknown.cordova.xinge;
+package com.eleme.cordova.xinge;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
