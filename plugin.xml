@@ -129,7 +129,9 @@
         </config-file>
         <header-file src="src/ios/libs/XGPush.h" />
         <header-file src="src/ios/CDVXinge.h" />
+        <header-file src="src/ios/StaticVariables.h" />
 	    <source-file src="src/ios/CDVXinge.m" />
+	    <source-file src="src/ios/StaticVariables.m" />
         <framework src="CFNetwork.framework"  framework="true"/>
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
