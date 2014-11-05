@@ -133,10 +133,10 @@
 	    <source-file src="src/ios/CDVXinge.m" />
 	    <source-file src="src/ios/StaticVariables.m" />
         <framework src="CFNetwork.framework"  framework="true"/>
-        <framework src="SystemConfiguration.framework" />
-        <framework src="CoreTelephony.framework" />
-        <framework src="libz.dylib" />
-        <framework src="libsqlite3.dylib" />
+        <framework src="SystemConfiguration.framework"  framework="true"/>
+        <framework src="CoreTelephony.framework"  framework="true"/>
+        <framework src="libz.dylib"  framework="true"/>
+        <framework src="libsqlite3.dylib"  framework="true"/>
         <source-file src="src/ios/libs/libXG-SDK.a" framework="true" />
     </platform>
 
