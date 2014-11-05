@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#define XG_SDK_VERSION @"2.1.0"
+#define XG_SDK_VERSION @"2.2.0"
 
 @interface XGPush : NSObject
 
@@ -22,8 +22,22 @@
 +(void)startApp:(uint32_t)appId appKey:(NSString *)appKey;
 
 /**
- * 设置设备的帐号 (在初始化信鸽后，注册设备之前调用)
- * @param account - 帐号名
+ * 如果注销过信鸽，需要再次注册push服务前的准备
+ * @param successCallback 初始化之后的回调，如果需要即刻恢复push服务，registerPush在此回调中调用
+ * @return none
+ */
++(void)initForReregister:(void (^)(void)) successCallback;
+
+/**
+ * 判断当前是否是已注销状态
+ * @param none
+ * @return none
+ */
++(BOOL)isUnRegisterStatus;
+
+/**
+ * 设置设备的帐号 (在初始化信鸽后，注册设备之前调用。account本质上是registerDevice的一个参数)
+ * @param account - 帐号名（长度为2个字节以上，不要使用"test","123456"这种过于简单的字符串）
  * @return none
  */
 +(void)setAccount:(NSString *)account;
@@ -38,12 +52,18 @@
 //注册设备，支持回调函数版本
 +(NSString *)registerDevice:(NSData *)deviceToken successCallback:(void (^)(void)) successCallback errorCallback:(void (^)(void)) errorCallback;
 
+//注册设备，支持字符串deviceToken版本
++(NSString *)registerDeviceStr:(NSString *)deviceToken;
+
 /**
  * 注销设备，设备不再进行推送
  * @param none
  * @return none
  */
 +(void)unRegisterDevice;
+
+//注销设备，支持回调版本
++(void)unRegisterDevice:(void (^)(void)) successCallback errorCallback:(void (^)(void)) errorCallback;
 
 /**
  * 设置tag
@@ -96,11 +116,18 @@
 +(NSString *)getBid:(NSDictionary *)userInfo;
 
 /**
- * 获取本地缓存的deviceToken
+ * deviceToken类型转换
  * @param deviceToken NSData格式的deviceToken
  * @return none
  */
 +(NSString *)getDeviceToken:(NSData *)deviceToken;
+
+/**
+ * 获取本地缓存的deviceToken
+ * @param none
+ * @return 信鸽启动时填入的的accessID
+ */
++(uint32_t)getAccessID;
 
 /**************************
  以下是本地推送相关
@@ -113,6 +140,7 @@
  * @param badge 角标的数字。如果不改变，则传递 -1
  * @param alertAction 替换弹框的按钮文字内容（默认为"启动"）
  * @param userInfo 自定义参数，可以用来标识推送和增加附加信息
+ * @return none
  */
 +(void)localNotification:(NSDate *)fireDate alertBody:(NSString *)alertBody badge:(int)badge alertAction:(NSString *)alertAction userInfo:(NSDictionary *)userInfo;
 
@@ -121,6 +149,7 @@
  * @param notification 本地推送对象
  * @param userInfoKey 本地推送的标识Key
  * @param userInfoValue 本地推送的标识Key对应的值
+ * @return none
  */
 +(void)localNotificationAtFrontEnd:(UILocalNotification *)notification userInfoKey:(NSString *)userInfoKey userInfoValue:(NSString *)userInfoValue;
 
@@ -128,17 +157,21 @@
  * 删除本地推送，方法1
  * @param userInfoKey 本地推送的标识Key
  * @param userInfoValue 本地推送的标识Key对应的值
+ * @return none
  */
 +(void)delLocalNotification:(NSString *)userInfoKey userInfoValue:(NSString *)userInfoValue;
 
 /**
  * 删除本地推送，方法2
  * @param myUILocalNotification 本地推送对象
+ * @return none
  */
 +(void)delLocalNotification:(UILocalNotification *)myUILocalNotification;
 
 /**
  * 清除所有本地推送对象
+ * @param none
+ * @return none
  */
 +(void)clearLocalNotifications;
 
