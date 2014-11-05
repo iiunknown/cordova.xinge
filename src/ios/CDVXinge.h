@@ -17,11 +17,26 @@
  under the License.
  */
 
+
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioServices.h>
 #import <Cordova/CDVPlugin.h>
 
-@interface CDVXinge : CDVPlugin {
-}
+@interface CDVXinge:CDVPlugin{}
 
-- (void)register:(CDVInvokedUrlCommand*)command;
+//设备编码，由AppDelegete反向设置。
+@property (nonatomic) NSString* deviceToken;
+//注册设备信息
+//+(NSString*)registerDevice:(NSData *)deviceToken;
+- (void)registerDevice:(CDVInvokedUrlCommand*)command;
+//初始化push信息
+- (void)startApp:(CDVInvokedUrlCommand*)command;
+//设置别名（帐号）
+- (void)setAccount:(CDVInvokedUrlCommand*)command;
+//获取设备识别码字符串
+- (NSString*)getToken:(CDVInvokedUrlCommand*)command;
+//注销设备
+- (void)unregister:(CDVInvokedUrlCommand*)command;
+
 @end

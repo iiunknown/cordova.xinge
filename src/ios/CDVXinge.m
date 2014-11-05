@@ -18,11 +18,67 @@
  */
 
 #import "CDVXinge.h"
+#import "XGPush.h"
+#import "StaticVariables.h"
+#import <Cordova/CDV.h>
 
 @implementation CDVXinge
 
--(void) register: (CDVInvokedUrlCommand*)command
+-(void) registerDevice: (CDVInvokedUrlCommand*)command
 {
+    CDVPluginResult* pluginResult = nil;
+    
+    [XGPush registerDevice: [StaticVariables staticInstance].deviceToken];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void) startApp: (CDVInvokedUrlCommand*)command
+{
+    CDVPluginResult* pluginResult = nil;    
+    uint32_t appId = [[command.arguments objectAtIndex:0] intValue];
+    NSString* appKey = [command.arguments objectAtIndex:1];
+    
+    if (appId != 0 && appKey != nil) {
+        @try {
+            [XGPush startApp:appId appKey:appKey];
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        }
+        @catch (NSException *exception) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:exception.userInfo.description];
+        }
+    } else {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"appId or appKey is tempty."];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];}
+
+-(void) setAccount:(CDVInvokedUrlCommand*)command{
+    CDVPluginResult* pluginResult = nil;
+    @try {
+        NSString* account = [command.arguments objectAtIndex: 0];
+        [XGPush setAccount: account];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    @catch (NSException *exception) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: exception.userInfo.description];
+    }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(NSString*) getToken:(CDVInvokedUrlCommand *)command{
+    CDVPluginResult* pluginResult = nil;
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    return [StaticVariables staticInstance].deviceTokenStr;
+}
+
+-(void) unregister:(CDVInvokedUrlCommand *)command{
+    CDVPluginResult* pluginResult = nil;
+    [XGPush unRegisterDevice];
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+
 }
 
 @end
