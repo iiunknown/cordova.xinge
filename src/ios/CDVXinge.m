@@ -27,8 +27,9 @@
 -(void) registerDevice: (CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
-    
+
     [XGPush registerDevice: [StaticVariables staticInstance].deviceToken];
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -42,7 +43,9 @@
     
     if (appId != 0 && appKey != nil) {
         @try {
+
             [XGPush startApp:appId appKey:appKey];
+
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         }
         @catch (NSException *exception) {
@@ -57,7 +60,9 @@
     CDVPluginResult* pluginResult = nil;
     @try {
         NSString* account = [command.arguments objectAtIndex: 0];
+
         [XGPush setAccount: account];
+
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     }
     @catch (NSException *exception) {
@@ -66,19 +71,44 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
--(NSString*) getToken:(CDVInvokedUrlCommand *)command{
+-(void) getToken:(CDVInvokedUrlCommand *)command{
     CDVPluginResult* pluginResult = nil;
-    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    @try {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [StaticVariables staticInstance].deviceTokenStr];
+    }
+    @catch (NSException *exception) {
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: exception.userInfo.description];
+    }
+    
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    return [StaticVariables staticInstance].deviceTokenStr;
 }
 
 -(void) unregister:(CDVInvokedUrlCommand *)command{
     CDVPluginResult* pluginResult = nil;
     [XGPush unRegisterDevice];
+
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 
+}
+
+-(void) setBadge:(CDVInvokedUrlCommand *)command{
+    
+    CDVPluginResult* pluginResult = nil;
+    @try {
+        
+        int badge = [[command.arguments objectAtIndex:0] intValue];
+        [UIApplication sharedApplication].applicationIconBadgeNumber = badge;
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    }
+    @catch (NSException *exception) {
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: exception.userInfo.description];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end

@@ -35,8 +35,10 @@
 //设置别名（帐号）
 - (void)setAccount:(CDVInvokedUrlCommand*)command;
 //获取设备识别码字符串
-- (NSString*)getToken:(CDVInvokedUrlCommand*)command;
+- (void)getToken:(CDVInvokedUrlCommand*)command;
 //注销设备
 - (void)unregister:(CDVInvokedUrlCommand*)command;
+//设置图标脚标
+- (void)setBadge:(CDVInvokedUrlCommand*)command;
 
 @end
