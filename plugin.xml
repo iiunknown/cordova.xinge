@@ -137,7 +137,7 @@
         <framework src="CoreTelephony.framework"  framework="true"/>
         <framework src="libz.dylib"  framework="true"/>
         <framework src="libsqlite3.dylib"  framework="true"/>
-        <source-file src="src/ios/libs/libXG-SDK.a" framework="true" />
+        <framework src="src/ios/libs/libXG-SDK.a" framework="true" />
     </platform>
 
 </plugin>
