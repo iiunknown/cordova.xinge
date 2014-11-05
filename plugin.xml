@@ -2,13 +2,13 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.iiunknown.cordova.xinge"
+    id="com.eleme.cordova.xinge"
     version="0.0.1">
     <name>xinge</name>
     <description>腾讯信鸽Cordova插件。基于信鸽V2.31。</description>
     <license>Apache 2.0</license>
     <keywords>cordova, xinge, 信鸽</keywords>
-    <repo>https://github.com/iiunknown/cordova.xinge.git</repo>
+    <repo>https://github.com/eleme/cordova.xinge.git</repo>
     <issue></issue>
 
 
@@ -20,7 +20,7 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="Xinge">
-                <param name="android-package" value="com.iiunknown.cordova.xinge.Xinge"/>
+                <param name="android-package" value="com.eleme.cordova.xinge.Xinge"/>
             </feature>
         </config-file>
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -52,7 +52,7 @@
 		        </intent-filter>
 		    </receiver>
 		    <!-- 自定义消息接收器 -->
-			<receiver android:name="com.iiunknown.cordova.xinge.XGPushCordovaReceiver" >
+			<receiver android:name="com.eleme.cordova.xinge.XGPushCordovaReceiver" >
 				<intent-filter>
 					<!-- message  -->
 					<action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
@@ -108,8 +108,8 @@
 			<uses-permission android:name="android.permission.BATTERY_STATS" />
         </config-file>
 
-        <source-file src="src/android/Xinge.java" target-dir="src/iiunknown/cordova/xinge" />
-		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/iiunknown/cordova/xinge" />
+        <source-file src="src/android/Xinge.java" target-dir="src/eleme/cordova/xinge" />
+		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/eleme/cordova/xinge" />
 		<source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/mid-sdk-2.10.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
