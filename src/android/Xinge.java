@@ -20,6 +20,7 @@ import android.content.Intent;
 */
 public class Xinge extends CordovaPlugin {
 
+	public static final String LogTag = "XingePlugin";
     private String customContent = "custom";
     /**
      * 执行js传递过来的请求。
@@ -30,12 +31,15 @@ public class Xinge extends CordovaPlugin {
      * @return                  bool值。
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.d("TPush", "execute action:"+action+" with args:"+args);
+        Log.d(LogTag, "execute action:"+action+" with args:"+args);
          if ("register".equals(action)) {
              return register(args, callbackContext);
          }
          else if ("unregister".equals(action)){
              return unregister(callbackContext);
+         }
+         else if ("enableDebug".equals(action)){
+            return enableDebug(args);
          }
          else if ("setAccessId".equals(action)){
             return setAccessId(args);
@@ -59,9 +63,6 @@ public class Xinge extends CordovaPlugin {
              String title = args.getString(0);
              String content = args.getString(1);
              return notify(title,content,callbackContext);
-         }
-         else if("getCustomContent".equals(action)) {
-             return getCustomContent(callbackContext);
          }
          return false;
     }
@@ -91,36 +92,7 @@ public class Xinge extends CordovaPlugin {
     public boolean unregister(final CallbackContext callbackContext) {
         XGPushManager.unregisterPush(this.cordova.getActivity());
         callbackContext.success();
-        Log.d("TPush", "unregister push sucess");
-        return true;
-    }
-
-    // Activity被打开的效果统计; 及获取下发的自定义key-value
-    @Override
-    public void onResume(boolean multitasking) {
-        super.onResume(multitasking);
-        XGPushClickedResult click = XGPushManager.onActivityStarted(this.cordova.getActivity());
-        if (click != null) {
-            String customContent = click.getCustomContent();
-            if (customContent != null && customContent.length() != 0) {
-                try {
-                    Log.d("TPush", "custom key-value:" + customContent);
-                    this.customContent = customContent;
-                } catch (Exception e) {
-                    System.err.println("Exception: " + e.getMessage());
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onPause(boolean multitasking) {
-        super.onPause(multitasking);
-        XGPushManager.onActivityStoped(this.cordova.getActivity());
-    }
-
-    public boolean getCustomContent(final CallbackContext callbackContext) {
-        callbackContext.success(this.customContent);
+        Log.d(LogTag, "unregister push sucess");
         return true;
     }
     // XGPushManager功能类方法代理结束
@@ -129,6 +101,16 @@ public class Xinge extends CordovaPlugin {
     //XGPushConfig提供信鸽服务的对外配置API列表，方法默认为public static类型，对于本类提供的set和enable方法，要在XGPushManager接口前调用才能及时生效。
 
     //配置App，设置Xinge的AccessId和AccessKey。
+    public boolean enableDebug(JSONArray args, final CallbackContext callbackContext) {
+        try {
+            XGPushConfig.enableDebug(this.cordova.getActivity(), args.getBoolean(0));
+        } catch(Exception e) {
+            Log.d(LogTag, "Exception" + e.getMessage());
+            callbackContext.error("Exception" + e.getMessage());
+            return false;
+        }
+        return true;
+    }
     public boolean config(JSONArray args, final CallbackContext callbackContext){
         try{
             Long accessId = args.getLong(0);

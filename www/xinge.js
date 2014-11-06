@@ -33,6 +33,11 @@ xingePlugin.setAccessKey = function(accessKey){
 xingePlugin.getToken = function(successCallback, errorCallback){
 	cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
 }
+
+xingePlugin.enableDebug = function(debugFlag, errorCallback){
+    cordova.exec(null, errorCallback, "Xinge", "enableDebug", [debugFlag]);
+};
+
 //配置accessId和accessKey
 xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
@@ -66,10 +71,6 @@ xingePlugin.onNotificationClicked = function (successCallback, errorCallback) {
     }
 
     cordova.exec(successCallback, errorCallback, "Xinge", "onNotificationClicked", []);
-};
-
-xingePlugin.onNotificationKeyValue = function (successCallback, errorCallback) {
-    cordova.exec(successCallback, errorCallback, "Xinge", "onNotificationKeyValue", []);
 };
 
 xingePlugin.notify = function (title,content,successCallback, errorCallback) {
