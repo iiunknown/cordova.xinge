@@ -17,6 +17,8 @@ xingePlugin.unregister = function(successCallback, errorCallback){
 // XGPushManager功能类方法代理结束
 
 //XGPushConfig配置类开始
+
+/*
 //配置accessId
 xingePlugin.setAccessId = function(accessId){
     cordova.exec(null, null, "Xinge", "setAccessId", [accessId]);
@@ -25,6 +27,8 @@ xingePlugin.setAccessId = function(accessId){
 xingePlugin.setAccessKey = function(accessKey){
     cordova.exec(null, null, "Xinge", "setAccessKey", [accessKey]);
 }
+*/
+
 //获取设备的token，只有注册成功才能获取到正常的结果
 xingePlugin.getToken = function(successCallback, errorCallback){
 	cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
@@ -50,18 +54,22 @@ xingePlugin.onMessage = function (successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
 };
 
-xingePlugin.onOpen = function (successCallback, errorCallback) {
-    if (errorCallback == null) {
+xingePlugin.onNotificationClicked = function (successCallback, errorCallback) {
+   if (errorCallback == null) {
         errorCallback = function () {
         }
     }
 
     if (typeof successCallback != "function") {
-        console.log("Xinge.onOpen failure: success callback parameter must be a function");
+        console.log("Xinge.onNotificationClicked failure: success callback parameter must be a function");
         return;
     }
-	
-    cordova.exec(successCallback, errorCallback, "Xinge", "onOpen", []);
+
+    cordova.exec(successCallback, errorCallback, "Xinge", "onNotificationClicked", []);
+};
+
+xingePlugin.onNotificationKeyValue = function (successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "Xinge", "onNotificationKeyValue", []);
 };
 
 xingePlugin.notify = function (title,content,successCallback, errorCallback) {

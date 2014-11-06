@@ -9,6 +9,7 @@ import org.json.JSONException;
 import android.util.Log;
 
 import com.tencent.android.tpush.*;
+import android.content.Intent;
 /*
 腾讯信鸽Cordova插件Android代理类，继承CordovaPlugin类。
 代理腾讯信鸽下列类中的方法：
@@ -18,6 +19,8 @@ import com.tencent.android.tpush.*;
 供js脚本调用。
 */
 public class Xinge extends CordovaPlugin {
+
+    private String customContent = "custom";
     /**
      * 执行js传递过来的请求。
      *
@@ -49,13 +52,16 @@ public class Xinge extends CordovaPlugin {
          else if("onMessage".equals(action)) {
              return onMessage(callbackContext);
          }
-         else if("onOpen".equals(action)) {
-             return onOpen(callbackContext);
+         else if("onNotificationClicked".equals(action)) {
+             return onNotificationClicked(callbackContext);
          }
          else if("notify".equals(action)) {
              String title = args.getString(0);
              String content = args.getString(1);
              return notify(title,content,callbackContext);
+         }
+         else if("getCustomContent".equals(action)) {
+             return getCustomContent(callbackContext);
          }
          return false;
     }
@@ -86,6 +92,35 @@ public class Xinge extends CordovaPlugin {
         XGPushManager.unregisterPush(this.cordova.getActivity());
         callbackContext.success();
         Log.d("TPush", "unregister push sucess");
+        return true;
+    }
+
+    // Activity被打开的效果统计; 及获取下发的自定义key-value
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+        XGPushClickedResult click = XGPushManager.onActivityStarted(this.cordova.getActivity());
+        if (click != null) {
+            String customContent = click.getCustomContent();
+            if (customContent != null && customContent.length() != 0) {
+                try {
+                    Log.d("TPush", "custom key-value:" + customContent);
+                    this.customContent = customContent;
+                } catch (Exception e) {
+                    System.err.println("Exception: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        super.onPause(multitasking);
+        XGPushManager.onActivityStoped(this.cordova.getActivity());
+    }
+
+    public boolean getCustomContent(final CallbackContext callbackContext) {
+        callbackContext.success(this.customContent);
         return true;
     }
     // XGPushManager功能类方法代理结束
@@ -156,7 +191,7 @@ public class Xinge extends CordovaPlugin {
         return true;
     }
     
-    public boolean onOpen(final CallbackContext callbackContext) {
+    public boolean onNotificationClicked(final CallbackContext callbackContext) {
         XGPushCordovaReceiver.openCallbackContext = callbackContext;
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
