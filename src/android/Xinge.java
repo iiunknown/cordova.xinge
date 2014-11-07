@@ -1,4 +1,4 @@
-package com.iiunknown.cordova.xinge;
+package com.eleme.cordova.xinge;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -9,6 +9,7 @@ import org.json.JSONException;
 import android.util.Log;
 
 import com.tencent.android.tpush.*;
+import android.content.Intent;
 /*
 腾讯信鸽Cordova插件Android代理类，继承CordovaPlugin类。
 代理腾讯信鸽下列类中的方法：
@@ -18,6 +19,9 @@ import com.tencent.android.tpush.*;
 供js脚本调用。
 */
 public class Xinge extends CordovaPlugin {
+
+	public static final String LogTag = "XingePlugin";
+    private String customContent = "custom";
     /**
      * 执行js传递过来的请求。
      *
@@ -27,12 +31,15 @@ public class Xinge extends CordovaPlugin {
      * @return                  bool值。
      */
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        Log.d("TPush", "execute action:"+action+" with args:"+args);
+        Log.d(LogTag, "execute action:"+action+" with args:"+args);
          if ("register".equals(action)) {
              return register(args, callbackContext);
          }
          else if ("unregister".equals(action)){
              return unregister(callbackContext);
+         }
+         else if ("enableDebug".equals(action)){
+            return enableDebug(args, callbackContext);
          }
          else if ("setAccessId".equals(action)){
             return setAccessId(args);
@@ -48,6 +55,9 @@ public class Xinge extends CordovaPlugin {
          }
          else if("onMessage".equals(action)) {
              return onMessage(callbackContext);
+         }
+         else if("onNotificationClicked".equals(action)) {
+             return onNotificationClicked(callbackContext);
          }
          else if("notify".equals(action)) {
              String title = args.getString(0);
@@ -82,7 +92,7 @@ public class Xinge extends CordovaPlugin {
     public boolean unregister(final CallbackContext callbackContext) {
         XGPushManager.unregisterPush(this.cordova.getActivity());
         callbackContext.success();
-        Log.d("TPush", "unregister push sucess");
+        Log.d(LogTag, "unregister push sucess");
         return true;
     }
     // XGPushManager功能类方法代理结束
@@ -91,6 +101,16 @@ public class Xinge extends CordovaPlugin {
     //XGPushConfig提供信鸽服务的对外配置API列表，方法默认为public static类型，对于本类提供的set和enable方法，要在XGPushManager接口前调用才能及时生效。
 
     //配置App，设置Xinge的AccessId和AccessKey。
+    public boolean enableDebug(JSONArray args, final CallbackContext callbackContext) {
+        try {
+            XGPushConfig.enableDebug(this.cordova.getActivity(), args.getBoolean(0));
+        } catch(Exception e) {
+            Log.d(LogTag, "Exception" + e.getMessage());
+            callbackContext.error("Exception" + e.getMessage());
+            return false;
+        }
+        return true;
+    }
     public boolean config(JSONArray args, final CallbackContext callbackContext){
         try{
             Long accessId = args.getLong(0);
@@ -147,6 +167,14 @@ public class Xinge extends CordovaPlugin {
 
     public boolean onMessage(final CallbackContext callbackContext) {
         XGPushCordovaReceiver.msgCallbackContext = callbackContext;
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
+        pluginResult.setKeepCallback(true);
+        callbackContext.sendPluginResult(pluginResult);
+        return true;
+    }
+    
+    public boolean onNotificationClicked(final CallbackContext callbackContext) {
+        XGPushCordovaReceiver.openCallbackContext = callbackContext;
         PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);

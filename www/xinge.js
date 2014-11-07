@@ -3,7 +3,10 @@ var xingePlugin = {};
 
 // XGPushManager功能类方法代理开始
 //启动并注册APP，同时绑定账号。
-xingePlugin.register = function (account, successCallback, errorCallback) {
+xingePlugin.register = function (successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "Xinge", "register", []);
+};
+xingePlugin.registerAccount = function (account, successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "Xinge", "register", [account]);
 };
 //反注册，建议在不需要接收推送的时候调用。
@@ -14,6 +17,8 @@ xingePlugin.unregister = function(successCallback, errorCallback){
 // XGPushManager功能类方法代理结束
 
 //XGPushConfig配置类开始
+
+/*
 //配置accessId
 xingePlugin.setAccessId = function(accessId){
     cordova.exec(null, null, "Xinge", "setAccessId", [accessId]);
@@ -22,10 +27,17 @@ xingePlugin.setAccessId = function(accessId){
 xingePlugin.setAccessKey = function(accessKey){
     cordova.exec(null, null, "Xinge", "setAccessKey", [accessKey]);
 }
+*/
+
 //获取设备的token，只有注册成功才能获取到正常的结果
 xingePlugin.getToken = function(successCallback, errorCallback){
 	cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
 }
+
+xingePlugin.enableDebug = function(debugFlag, errorCallback){
+    cordova.exec(null, errorCallback, "Xinge", "enableDebug", [debugFlag]);
+};
+
 //配置accessId和accessKey
 xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
@@ -46,6 +58,21 @@ xingePlugin.onMessage = function (successCallback, errorCallback) {
 	
     cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
 };
+
+xingePlugin.onNotificationClicked = function (successCallback, errorCallback) {
+   if (errorCallback == null) {
+        errorCallback = function () {
+        }
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("Xinge.onNotificationClicked failure: success callback parameter must be a function");
+        return;
+    }
+
+    cordova.exec(successCallback, errorCallback, "Xinge", "onNotificationClicked", []);
+};
+
 xingePlugin.notify = function (title,content,successCallback, errorCallback) {
     if (errorCallback == null) {
         errorCallback = function () {
@@ -58,4 +85,13 @@ xingePlugin.notify = function (title,content,successCallback, errorCallback) {
     }
     cordova.exec(successCallback, errorCallback, "Xinge", "notify", [title,content]);
 };
+
+if (!window.plugins) {
+    window.plugins = {};
+}
+
+if (!window.plugins.xingePlugin) {
+    window.plugins.xingePlugin = xingePlugin;
+}
+
 module.exports = xingePlugin;
