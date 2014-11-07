@@ -39,7 +39,7 @@ public class Xinge extends CordovaPlugin {
              return unregister(callbackContext);
          }
          else if ("enableDebug".equals(action)){
-            return enableDebug(args);
+            return enableDebug(args, callbackContext);
          }
          else if ("setAccessId".equals(action)){
             return setAccessId(args);
