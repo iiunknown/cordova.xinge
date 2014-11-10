@@ -108,8 +108,9 @@
 			<uses-permission android:name="android.permission.BATTERY_STATS" />
         </config-file>
 
-        <source-file src="src/android/Xinge.java" target-dir="src/iiunknown/cordova/xinge" />
-		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/iiunknown/cordova/xinge" />
+        <source-file src="src/android/Xinge.java" target-dir="src/com/iiunknown/cordova/xinge" />
+		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/com/iiunknown/cordova/xinge" />
+		<source-file src="src/android/UpdateApp.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/mid-sdk-2.10.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
@@ -118,7 +119,21 @@
 		<source-file src="src/android/libs/mips/libtpnsSecurity.so" target-dir="libs/mips/" />
 		<source-file src="src/android/libs/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a/" />
 		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
-
+		<js-module src="www/updateAppPlugin.js" name="UpdateApp">
+        	<clobbers target="window.plugins.updateApp" />
+    	</js-module>
+        <config-file target="res/values/string.xml" parent="/*">
+        	<string name="app_name">App Name</string>
+		    <string name="action_settings">Settings</string>
+		    <string name="hello_world">Hello world!</string>
+		    <string name="soft_update_no">已经是最新版本</string>
+		    <string name="soft_update_title">软件更新</string>
+		    <string name="soft_update_info">检测到新版本，立即更新吗</string>
+		    <string name="soft_update_updatebtn">更新</string>
+		    <string name="soft_update_later">稍后更新</string>
+		    <string name="soft_updating">正在更新</string>
+    		<string name="soft_update_cancel">取消</string>
+        </config-file>
      </platform>
     <!-- ios -->
     <platform name="ios">    
