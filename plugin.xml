@@ -108,6 +108,7 @@
 			<uses-permission android:name="android.permission.BATTERY_STATS" />
         </config-file>
 
+        <source-file src="src/android/softupdate_progress.xml" target-dir="res/layout" />
         <source-file src="src/android/Xinge.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/UpdateApp.java" target-dir="src/com/iiunknown/cordova/xinge" />
