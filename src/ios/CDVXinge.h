@@ -31,14 +31,40 @@
 //+(NSString*)registerDevice:(NSData *)deviceToken;
 - (void)registerDevice:(CDVInvokedUrlCommand*)command;
 //初始化push信息
-- (void)startApp:(CDVInvokedUrlCommand*)command;
+- (void)config:(CDVInvokedUrlCommand*)command;
 //设置别名（帐号）
-- (void)setAccount:(CDVInvokedUrlCommand*)command;
+- (void)register:(CDVInvokedUrlCommand*)command;
 //获取设备识别码字符串
 - (void)getToken:(CDVInvokedUrlCommand*)command;
 //注销设备
 - (void)unregister:(CDVInvokedUrlCommand*)command;
 //设置图标脚标
 - (void)setBadge:(CDVInvokedUrlCommand*)command;
+//获取当前应用的包名称
+- (void)getPackageName:(CDVInvokedUrlCommand*)command;
+//获取当前应用的版本号
+- (void)getVersion:(CDVInvokedUrlCommand*)command;
+//当app收到推送信息时触发的方法
+- (void)onMessage:(CDVInvokedUrlCommand*)command;
+
+@end
+
+
+#import <Foundation/Foundation.h>
+//用于存储信鸽推送所需的公共变量信息。
+@interface XGStaticVariables : NSObject
+
+//设备识别码对象
+@property(strong, nonatomic) NSData * deviceToken;
+//设备识别码对象经过信鸽处理过返回的字符串。
+@property(strong, nonatomic) NSString* deviceTokenStr;
+//登录账号
+@property(strong, nonatomic) NSString* account;
+//消息的callback函数
+@property(strong, nonatomic) CDVInvokedUrlCommand* messageCallback;
+
+@property(strong, nonatomic) id<CDVCommandDelegate> commandDelegete;
+//静态实例
++(XGStaticVariables*)sharedInstance;
 
 @end

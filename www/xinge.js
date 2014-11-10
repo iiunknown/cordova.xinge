@@ -1,4 +1,4 @@
-var exec = require("cordova/exec");
+cordova.define("com.iiunknown.cordova.xinge.xingePlugin", function(require, exports, module) { var exec = require("cordova/exec");
 var xingePlugin = {};
 
 // XGPushManager功能类方法代理开始
@@ -24,11 +24,19 @@ xingePlugin.setAccessKey = function(accessKey){
 }
 //获取设备的token，只有注册成功才能获取到正常的结果
 xingePlugin.getToken = function(successCallback, errorCallback){
-	cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
+    cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
 }
 //配置accessId和accessKey
 xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
+};
+//获取当前应用包名
+xingePlugin.getPackageName = function(successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "Xinge", "getPackageName", []);
+};
+//获取当前应用版本号
+xingePlugin.getVersion = function(successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "Xinge", "getVersion", []);
 };
 //XGPushConfig配置类结束
 
@@ -43,7 +51,7 @@ xingePlugin.onMessage = function (successCallback, errorCallback) {
         console.log("Xinge.onMessage failure: success callback parameter must be a function");
         return;
     }
-	
+    
     cordova.exec(successCallback, errorCallback, "Xinge", "onMessage", []);
 };
 xingePlugin.notify = function (title,content,successCallback, errorCallback) {
@@ -51,11 +59,19 @@ xingePlugin.notify = function (title,content,successCallback, errorCallback) {
         errorCallback = function () {
         }
     }
-	if (successCallback == null) {
+    if (successCallback == null) {
         successCallback = function (data) {
-			console.log("notify "+title+":"+data);
+            console.log("notify "+title+":"+data);
         }
     }
     cordova.exec(successCallback, errorCallback, "Xinge", "notify", [title,content]);
 };
+
+//for iOS only
+xingePlugin.registerDevice = function(successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "Xinge", "registerDevice", []);
+};
+
 module.exports = xingePlugin;
+
+});

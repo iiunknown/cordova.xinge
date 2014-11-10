@@ -19,23 +19,43 @@
 
 #import "CDVXinge.h"
 #import "XGPush.h"
-#import "StaticVariables.h"
 #import <Cordova/CDV.h>
 
+
+@implementation XGStaticVariables
+
+@synthesize deviceToken;
+@synthesize account;
+@synthesize deviceTokenStr;
+@synthesize messageCallback;
+@synthesize commandDelegete;
+
+static XGStaticVariables* _instance;
+
++(XGStaticVariables *) sharedInstance{
+    if (_instance == nil){
+        _instance = [[XGStaticVariables alloc] init];
+    }
+    return _instance;
+}
+
+@end
 @implementation CDVXinge
+
+
 
 -(void) registerDevice: (CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;
 
-    [XGPush registerDevice: [StaticVariables staticInstance].deviceToken];
+    [XGPush registerDevice: [XGStaticVariables sharedInstance].deviceToken];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    
+    [pluginResult setKeepCallbackAsBool: true];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
--(void) startApp: (CDVInvokedUrlCommand*)command
+-(void) config: (CDVInvokedUrlCommand*)command
 {
     CDVPluginResult* pluginResult = nil;    
     uint32_t appId = [[command.arguments objectAtIndex:0] intValue];
@@ -43,9 +63,6 @@
     
     if (appId != 0 && appKey != nil) {
         @try {
-
-            [XGPush startApp:appId appKey:appKey];
-
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         }
         @catch (NSException *exception) {
@@ -56,7 +73,7 @@
     }
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];}
 
--(void) setAccount:(CDVInvokedUrlCommand*)command{
+-(void) register:(CDVInvokedUrlCommand*)command{
     CDVPluginResult* pluginResult = nil;
     @try {
         NSString* account = [command.arguments objectAtIndex: 0];
@@ -74,7 +91,7 @@
 -(void) getToken:(CDVInvokedUrlCommand *)command{
     CDVPluginResult* pluginResult = nil;
     @try {
-        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [StaticVariables staticInstance].deviceTokenStr];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: [XGStaticVariables sharedInstance].deviceTokenStr];
     }
     @catch (NSException *exception) {
         
@@ -111,4 +128,51 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+-(void) getPackageName:(CDVInvokedUrlCommand *) command{
+    
+    CDVPluginResult* pluginResult = nil;
+    @try {
+        //获取主plist文件信息。
+        NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+        NSString* packageName = [NSString stringWithFormat:@"%@", [infoDict objectForKey:@"CFBundleIdentifier"]];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: packageName];
+    }
+    @catch (NSException *exception) {
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: exception.userInfo.description];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void) getVersion:(CDVInvokedUrlCommand*) command{
+    
+    CDVPluginResult* pluginResult = nil;
+    @try {
+        //获取主plist文件信息。
+        NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+        NSString* packageVersion = [NSString stringWithFormat:@"%@", [infoDict objectForKey:@"CFBundleVersion"]];
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString: packageVersion];
+    }
+    @catch (NSException *exception) {
+        
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: exception.userInfo.description];
+    }
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void) onMessage:(CDVInvokedUrlCommand *)command{
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
+    [XGStaticVariables sharedInstance].messageCallback = command;
+    [XGStaticVariables sharedInstance].commandDelegete = self.commandDelegate;
+    [pluginResult setKeepCallbackAsBool: true];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    
+}
+
 @end
+
+
