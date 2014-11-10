@@ -1,4 +1,3 @@
-cordova.define("com.iiunknown.cordova.xinge.xingePlugin", function(require, exports, module) { var exec = require("cordova/exec");
 var xingePlugin = {};
 
 // XGPushManager功能类方法代理开始
@@ -74,4 +73,3 @@ xingePlugin.registerDevice = function(successCallback, errorCallback){
 
 module.exports = xingePlugin;
 
-});
