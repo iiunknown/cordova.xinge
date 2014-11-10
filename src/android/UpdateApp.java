@@ -15,6 +15,9 @@ import java.net.URL;
 
 
 
+
+
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 //import org.apache.cordova.api.CallbackContext;
@@ -22,6 +25,11 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.shuishantech.k11.R;
+import com.shuishantech.k11.R.layout;
+import com.shuishantech.k11.R.string;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -229,10 +237,10 @@ public class UpdateApp extends CordovaPlugin {
         // 给下载对话框增加进度条
         final LayoutInflater inflater = LayoutInflater.from(mContext);
         View v = inflater.inflate(layout.softupdate_progress, null);
-        mProgress = (ProgressBar) v.findViewById(id.update_progress);
+        mProgress = (ProgressBar) v.findViewById(R.id.update_progress);
         builder.setView(v);
         // 取消更新
-        builder.setNegativeButton(R.string.soft_update_cancel, new OnClickListener() {
+        builder.setNegativeButton(string.soft_update_cancel, new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 // 设置取消状态
