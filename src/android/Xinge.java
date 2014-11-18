@@ -54,6 +54,12 @@ public class Xinge extends CordovaPlugin {
              String content = args.getString(1);
              return notify(title,content,callbackContext);
          }
+         else if ("getPackageName".equals(action)){
+             return getPackageName(callbackContext);
+         }
+         else if ("getVersion".equals(action)){
+             return getVersion(callbackContext);
+         }
          return false;
     }
     
@@ -161,6 +167,30 @@ public class Xinge extends CordovaPlugin {
         //localMessage.setBuilderId(XGPushConfig.);
         Long msgId = XGPushManager.addLocalNotification(this.cordova.getActivity(),localMessage);
         callbackContext.success(""+msgId);
+        return true;
+    }
+    
+    public boolean getVersion(final CallbackContext callbackContext){
+        try{
+            String packageName = this.mContext.getPackageName();
+            String currentVerName = this.mContext.getPackageManager().getPackageInfo(packageName, 0).versionName;
+            callbackContext.success(""+currentVerName);
+        } catch (Exception e){
+            System.err.println("Exception: " + e.getMessage());
+            callbackContext.error(""+e.getMessage());
+            return false;
+        }
+        return true;
+    }
+    public boolean getPackageName(final CallbackContext callbackContext){
+        try{
+            String packageName = this.mContext.getPackageName();
+            callbackContext.success(""+packageName);
+        } catch (Exception e){
+            System.err.println("Exception: " + e.getMessage());
+            callbackContext.error(""+e.getMessage());
+            return false;
+        }
         return true;
     }
 }
