@@ -6,27 +6,17 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.tencent.android.tpush.*;
-/*
-腾讯信鸽Cordova插件Android代理类，继承CordovaPlugin类。
-代理腾讯信鸽下列类中的方法：
-    XGPushManager功能类
-    XGPushConfig配置类
-    XGPushBaseReceiver广播类
-供js脚本调用。
-*/
+
 public class Xinge extends CordovaPlugin {
-    /**
-     * 执行js传递过来的请求。
-     *
-     * @param action            需要执行的命令。
-     * @param args              命令所需参数，JSONArry格式。
-     * @param callbackContext   执行后调用的js中的回调函数。
-     * @return                  bool值。
-     */
+
+    private Context mContext;
+
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        this.mContext = cordova.getActivity();
         Log.d("TPush", "execute action:"+action+" with args:"+args);
          if ("register".equals(action)) {
              return register(args, callbackContext);
@@ -63,9 +53,7 @@ public class Xinge extends CordovaPlugin {
          return false;
     }
     
-    // XGPushManager功能类方法代理开始
 
-    //启动并注册APP
     public boolean register(JSONArray args,final CallbackContext callbackContext){
         try{
             int count = args.length();
@@ -91,12 +79,7 @@ public class Xinge extends CordovaPlugin {
         Log.d("TPush", "unregister push sucess");
         return true;
     }
-    // XGPushManager功能类方法代理结束
 
-    //XGPushConfig配置类开始
-    //XGPushConfig提供信鸽服务的对外配置API列表，方法默认为public static类型，对于本类提供的set和enable方法，要在XGPushManager接口前调用才能及时生效。
-
-    //配置App，设置Xinge的AccessId和AccessKey。
     public boolean config(JSONArray args, final CallbackContext callbackContext){
         try{
             Long accessId = args.getLong(0);
@@ -113,7 +96,7 @@ public class Xinge extends CordovaPlugin {
         }
         return true;
     }
-    //配置accessId
+
     public boolean setAccessId(JSONArray args){
         try{
             long id = args.getLong(0);
@@ -124,7 +107,7 @@ public class Xinge extends CordovaPlugin {
         } 
         return true;
     }
-    //配置accessKey
+
     public boolean setAccessKey(JSONArray args){
         try{
             String key = args.getString(0);
@@ -135,7 +118,7 @@ public class Xinge extends CordovaPlugin {
         } 
         return true;
     }
-    //获取设备的token，只有注册成功才能获取到正常的结果
+
     public boolean getToken(final CallbackContext callbackContext){
         try{
             String token = XGPushConfig.getToken(this.cordova.getActivity());
@@ -147,8 +130,6 @@ public class Xinge extends CordovaPlugin {
         }
         return true;
     }
-
-    //XGPushConfig配置类结束
 
 
     public boolean onMessage(final CallbackContext callbackContext) {
@@ -169,7 +150,7 @@ public class Xinge extends CordovaPlugin {
         callbackContext.success(""+msgId);
         return true;
     }
-    
+
     public boolean getVersion(final CallbackContext callbackContext){
         try{
             String packageName = this.mContext.getPackageName();
