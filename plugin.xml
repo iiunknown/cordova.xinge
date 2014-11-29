@@ -133,7 +133,7 @@
 		<source-file src="src/android/libs/mips/libtpnsSecurity.so" target-dir="libs/mips/" />
 		<source-file src="src/android/libs/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a/" />
 		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
-        <source-file src="src/android/libs/softupdate_progress.xml" target-dir="layout"/>
+        <source-file src="src/android/softupdate_progress.xml" target-dir="layout"/>
 		<js-module src="www/updateAppPlugin.js" name="updateAppPlugin">
         	<clobbers target="window.plugins.updateApp" />
     	</js-module>
