@@ -124,15 +124,15 @@
         <source-file src="src/android/Xinge.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/UpdateApp.java" target-dir="src/com/iiunknown/cordova/xinge" />
-		<source-file src="src/android/libs/httpmime-4.1.1.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/mid-sdk-2.10.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
+		
 		<source-file src="src/android/libs/android-support-v4.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/Xg_sdk_v2.35.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/x86/libtpnsSecurity.so" target-dir="libs/x86/" />
-		<source-file src="src/android/libs/mips/libtpnsSecurity.so" target-dir="libs/mips/" />
-		<source-file src="src/android/libs/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a/" />
+		<source-file src="src/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs/" />
+		<source-file src="src/android/libs/mid-sdk-2.20.jar" target-dir="libs/" />
+		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
+		<source-file src="src/android/libs/Xg_sdk_v2.38_20150616_1057.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
+		<source-file src="src/android/libs/armeabi/libtpnsWatchdog.so" target-dir="libs/armeabi/" />
+
         <source-file src="src/android/softupdate_progress.xml" target-dir="res/layout"/>
 		<js-module src="www/updateAppPlugin.js" name="updateAppPlugin">
         	<clobbers target="window.plugins.updateApp" />
