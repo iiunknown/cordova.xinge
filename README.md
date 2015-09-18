@@ -17,6 +17,18 @@ $ cordova plugin add https://github.com/iiunknown/cordova.xinge.git
 * iOS中的CDVXinge.m不会自动增加到Xcode项目中的编译页面列表中，需要手工增加。
 * iOS下启动代码中需要手工维护信鸽的ID和key。
 * Android下UpdateApp.java中的引用命名空间需要根据项目名称手动调整。
+* Android下需要修改AndroidManifest.xml中如下部分：
+
+```
+<!-- 【必须】 通知service，此选项有助于提高抵达率 -->
+		    <service
+		        android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+		        android:exported="true" >
+		        <intent-filter>
+		            <action android:name="应用包名.PUSH_ACTION" />
+		        </intent-filter>
+		    </service>
+```
 
 ### 使用
 

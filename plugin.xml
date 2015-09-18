@@ -40,18 +40,9 @@
 		            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
 		            
 		            <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
-		            <action android:name="android.intent.action.BOOT_COMPLETED" />
 		            <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-		            <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-		            <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-		        </intent-filter>
-		        <!-- 【可选】 usb相关的系统广播，增强信鸽service的复活机会，请根据需要添加 -->
-		        <intent-filter android:priority="0x7fffffff" >
-		            <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
-		            <action android:name="android.intent.action.MEDIA_REMOVED" />
-		            <action android:name="android.intent.action.MEDIA_CHECKING" />
-		            <action android:name="android.intent.action.MEDIA_EJECT" />
-		            <data android:scheme="file" />
+            		<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+            		<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
 		        </intent-filter>
 		    </receiver>
 		    <!-- 自定义消息接收器 -->
@@ -67,9 +58,10 @@
 		    <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
 		     <activity
 		         android:name="com.tencent.android.tpush.XGPushActivity"
-		         android:exported="false" >
+		         android:exported="true" >
 		         <intent-filter>
-		             <action android:name="" />
+		            <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
+		             <action android:name="android.intent.action" />
 		         </intent-filter>
 		    </activity>
 
@@ -79,6 +71,15 @@
 		        android:exported="true"
 		        android:persistent="true"
 		        android:process=":xg_service_v2" />
+
+		 	<!-- 【必须】 通知service，此选项有助于提高抵达率 -->
+		    <service
+		        android:name="com.tencent.android.tpush.rpc.XGRemoteService"
+		        android:exported="true" >
+		        <intent-filter>
+		            <action android:name="应用包名.PUSH_ACTION" />
+		        </intent-filter>
+		    </service>
 
 		    <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
 		    <meta-data 
