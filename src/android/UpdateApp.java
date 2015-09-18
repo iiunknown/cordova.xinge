@@ -26,9 +26,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.shuishantech.sky2.R;
-import com.shuishantech.sky2.R.layout;
-import com.shuishantech.sky2.R.string;
+import com.shuishantech.aportal.R;
+import com.shuishantech.aportal.R.layout;
+import com.shuishantech.aportal.R.string;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

@@ -5,7 +5,7 @@
     id="com.iiunknown.cordova.xinge"
     version="1.0.0">
     <name>xinge</name>
-    <description>腾讯信鸽Cordova插件。基于信鸽V2.31。</description>
+    <description>腾讯信鸽Cordova插件。基于信鸽Android V2.39，iOS V2.40。</description>
     <license>Apache 2.0</license>
     <keywords>cordova, xinge, 信鸽</keywords>
     <repo>https://github.com/iiunknown/cordova.xinge.git</repo>
@@ -129,7 +129,7 @@
 		<source-file src="src/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/mid-sdk-2.20.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/Xg_sdk_v2.38_20150616_1057.jar" target-dir="libs/" />
+		<source-file src="src/android/libs/Xg_sdk_v2.39_20150915_1121.jar" target-dir="libs/" />
 		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
 		<source-file src="src/android/libs/armeabi/libtpnsWatchdog.so" target-dir="libs/armeabi/" />
 
