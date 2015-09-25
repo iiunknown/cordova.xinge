@@ -3,9 +3,9 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.iiunknown.cordova.xinge"
-    version="1.0.0">
+    version="1.0.1">
     <name>xinge</name>
-    <description>腾讯信鸽Cordova插件。基于信鸽Android V2.39，iOS V2.40。</description>
+    <description>腾讯信鸽Cordova插件。基于信鸽Android V2.39，iOS V2.4.1。</description>
     <license>Apache 2.0</license>
     <keywords>cordova, xinge, 信鸽</keywords>
     <repo>https://github.com/iiunknown/cordova.xinge.git</repo>

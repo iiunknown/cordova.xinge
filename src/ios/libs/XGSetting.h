@@ -8,10 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define XG_SDK_VERSION @"2.4.1"
+
 @interface XGSetting : NSObject
 
 @property (nonatomic,retain) NSString* Channel;
 @property (nonatomic,retain) NSString* GameServer;
 
 +(id)getInstance;
+
+-(void) enableDebug:(BOOL) enbaleDebug;
+-(BOOL) isEnableDebug;
+
 @end
