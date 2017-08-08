@@ -1,13 +1,17 @@
 package com.iiunknown.cordova.xinge;
 
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.util.Log;
+import android.content.pm.PackageManager;
 
 import com.tencent.android.tpush.*;
 
@@ -15,9 +19,24 @@ public class Xinge extends CordovaPlugin {
 
     private Context mContext;
 
+    @Override
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
+        this.mContext = this.cordova.getActivity().getApplicationContext();
+		// Context context = cordova.getActivity().getApplicationContext();
+
+		XGPushConfig.enableDebug(this.mContext, true);
+        int id = getMetadataInt(this.mContext, "XG_V2_ACCESS_ID");
+        XGPushConfig.setAccessId(this.cordova.getActivity(), id);
+        String key = getMetadataString(this.mContext, "XG_V2_ACCESS_KEY");
+        XGPushConfig.setAccessKey(this.cordova.getActivity(), key);
+        XGPushManager.onActivityStarted(this.cordova.getActivity());
+
+	}
+
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        this.mContext = cordova.getActivity();
-        Log.d("TPush", "execute action:"+action+" with args:"+args);
+        Log.d("XingePush", "execute action:"+action+" with args:"+args);
          if ("register".equals(action)) {
              return register(args, callbackContext);
          }
@@ -62,7 +81,18 @@ public class Xinge extends CordovaPlugin {
             }
             else if (count == 1){
                 String account = args.getString(0);
-                XGPushManager.registerPush(this.cordova.getActivity(), account);
+                XGPushManager.registerPush(this.cordova.getActivity(), account,
+                        new XGIOperateCallback() {
+                            @Override
+                            public void onSuccess(Object data, int flag) {
+                                Log.d("TPush", "注册成功，设备token为：" + data);
+                            }
+
+                            @Override
+                            public void onFail(Object data, int errCode, String msg) {
+                                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+                            }
+                        });
             }
             callbackContext.success();
         } catch(Exception e) {
@@ -173,5 +203,32 @@ public class Xinge extends CordovaPlugin {
             return false;
         }
         return true;
+    }
+
+    public static String getMetadataString(Context context, String name) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            if (appInfo.metaData != null) {
+                String a = appInfo.metaData.getString(name);
+                return a;
+            } else {
+                return null;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return null;
+        }
+    }
+    public static int getMetadataInt(Context context, String name) {
+        try {
+            ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+            if (appInfo.metaData != null) {
+                int id = appInfo.metaData.getInt(name);
+                return id;
+            } else {
+                return 0;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            return 0;
+        }
     }
 }

@@ -1,96 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.iiunknown.cordova.xinge"
-    version="1.0.1">
-    <name>xinge</name>
-    <description>腾讯信鸽Cordova插件。基于信鸽Android V2.39，iOS V2.4.1。</description>
-    <license>Apache 2.0</license>
-    <keywords>cordova, xinge, 信鸽</keywords>
-    <repo>https://github.com/iiunknown/cordova.xinge.git</repo>
-    <issue></issue>
-
-
-    <js-module src="www/xinge.js" name="xingePlugin">
-        <clobbers target="xingePlugin" />
-    </js-module>
-
-    <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="Xinge">
-                <param name="android-package" value="com.iiunknown.cordova.xinge.Xinge"/>
-            </feature>
-            <feature name="UpdateApp">
-                <param name="android-package" value="com.iiunknown.cordova.xinge.UpdateApp"/>
-            </feature>
-        </config-file>
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			   <!-- 【必须】 信鸽receiver广播接收 -->
-		    <receiver
-		        android:name="com.tencent.android.tpush.XGPushReceiver"
-		        android:process=":xg_service_v2" >
-		        <intent-filter android:priority="0x7fffffff" >
-		            <!-- 【必须】 信鸽SDK的内部广播 -->
-		            <action android:name="com.tencent.android.tpush.action.SDK" />
-		            <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
-		            <!-- 【必须】 系统广播：开屏和网络切换 -->
-		            <action android:name="android.intent.action.USER_PRESENT" />
-		            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-		            
-		            <!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
-		            <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-            		<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-            		<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-		        </intent-filter>
-		    </receiver>
-		    <!-- 自定义消息接收器 -->
-			<receiver android:name="com.iiunknown.cordova.xinge.XGPushCordovaReceiver" >
+<plugin id="com.iiunknown.cordova.xinge" version="2.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>
+		xinge
+	</name>
+	<description>
+		Cordova Xinge Plugin
+	</description>
+	<license>
+		Apache 2.0
+	</license>
+	<keywords>
+		cordova, xinge, 信鸽, 腾讯信鸽
+	</keywords>
+	<repo>
+		https://github.com/iiunknown/cordova.xinge.git
+	</repo>
+	<issue>
+		https://github.com/iiunknown/cordova.xinge/issues
+	</issue>
+	<preference name="XG_ANDROID_ACCESS_ID" />
+	<preference name="XG_ANDROID_ACCESS_KEY" />
+	<preference name="XG_IOS_ACCESS_ID" />
+	<preference name="XG_IOS_ACCESS_KEY" />
+	<js-module name="xingePlugin" src="www/xinge.js">
+		<clobbers target="xingePlugin" />
+	</js-module>
+	<!-- android -->
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="Xinge">
+				<param name="android-package" value="com.iiunknown.cordova.xinge.Xinge" />
+			</feature>
+		</config-file>
+		<config-file parent="/manifest/application" target="AndroidManifest.xml">
+			<!-- 【必须】 信鸽receiver广播接收 -->
+			<receiver android:name="com.tencent.android.tpush.XGPushReceiver" android:process=":xg_service_v2">
+				<intent-filter android:priority="0x7fffffff">
+					<!-- 【必须】 信鸽SDK的内部广播 -->
+					<action android:name="com.tencent.android.tpush.action.SDK" />
+					<action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
+					<!-- 【必须】 系统广播：开屏和网络切换 -->
+					<action android:name="android.intent.action.USER_PRESENT" />
+					<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+					<!-- 【可选】 一些常用的系统广播，增强信鸽service的复活机会，请根据需要选择。当然，你也可以添加APP自定义的一些广播让启动service -->
+					<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+					<action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+					<action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+				</intent-filter>
+			</receiver>
+			<!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
+			<!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
+			<activity android:exported="false" android:name="com.tencent.android.tpush.XGPushActivity">
 				<intent-filter>
-					<!-- message  -->
+					<!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
+					<action android:name="android.intent.action" />
+				</intent-filter>
+			</activity>
+			<!-- 【必须】 信鸽service -->
+			<service android:exported="true" android:name="com.tencent.android.tpush.service.XGPushService" android:persistent="true" android:process=":xg_service_v2" />
+			<!-- 【必须】 通知service，此选项有助于提高抵达率 -->
+			<service android:exported="true" android:name="com.tencent.android.tpush.rpc.XGRemoteService">
+				<intent-filter>
+					<action android:name="$PACKAGE_NAME.PUSH_ACTION" />
+				</intent-filter>
+			</service>
+			<!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
+			<!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
+			<receiver android:name="com.iiunknown.cordova.xinge.XGPushCordovaReceiver" android:exported="true">
+				<intent-filter>
+					<!-- 接收消息透传 -->
 					<action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
-					<!-- other event -->
+					<!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
 					<action android:name="com.tencent.android.tpush.action.FEEDBACK" />
 				</intent-filter>
 			</receiver>
-		    <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
-		    <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
-		     <activity
-		         android:name="com.tencent.android.tpush.XGPushActivity"
-		         android:exported="true" >
-		         <intent-filter>
-		            <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
-		             <action android:name="android.intent.action" />
-		         </intent-filter>
-		    </activity>
-
-		    <!-- 【必须】 信鸽service -->
-		    <service
-		        android:name="com.tencent.android.tpush.service.XGPushService"
-		        android:exported="true"
-		        android:persistent="true"
-		        android:process=":xg_service_v2" />
-
-		 	<!-- 【必须】 通知service，此选项有助于提高抵达率 -->
-		    <service
-		        android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-		        android:exported="true" >
-		        <intent-filter>
-		            <action android:name="应用包名.PUSH_ACTION" />
-		        </intent-filter>
-		    </service>
-
-		    <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
-		    <meta-data 
-		        android:name="XG_V2_ACCESS_ID"
-		        android:value="" />
-		    <!-- 【必须】 请将YOUR_ACCESS_KEY修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
-		    <meta-data 
-		        android:name="XG_V2_ACCESS_KEY" 
-		        android:value="" />
-        </config-file>
-        <config-file target="AndroidManifest.xml" parent="/*">
+			<!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
+			<meta-data android:name="XG_V2_ACCESS_ID" android:value="$XG_ANDROID_ACCESS_ID" />
+			<!-- 【必须】 请将YOUR_ACCESS_KEY修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
+			<meta-data android:name="XG_V2_ACCESS_KEY" android:value="$XG_ANDROID_ACCESS_KEY" />
+		</config-file>
+		<config-file parent="/manifest" target="AndroidManifest.xml">
 			<!-- 【必须】 信鸽SDK所需权限 -->
 			<uses-permission android:name="android.permission.INTERNET" />
 			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -110,51 +99,56 @@
 			<!-- 【可选】 信鸽SDK所需权限 -->
 			<uses-permission android:name="android.permission.BLUETOOTH" />
 			<uses-permission android:name="android.permission.BATTERY_STATS" />
-        </config-file>
-
-        <config-file target="res/values/strings.xml" parent="/resources">
-		    <string name="soft_update_no">已经是最新版本</string>
-		    <string name="soft_update_title">软件更新</string>
-		    <string name="soft_update_info">检测到新版本，立即更新吗</string>
-		    <string name="soft_update_updatebtn">更新</string>
-		    <string name="soft_update_later">稍后更新</string>
-		    <string name="soft_updating">正在更新</string>
-    		<string name="soft_update_cancel">取消</string>
-        </config-file>
-
-        <source-file src="src/android/Xinge.java" target-dir="src/com/iiunknown/cordova/xinge" />
+		</config-file>
+		<source-file src="src/android/Xinge.java" target-dir="src/com/iiunknown/cordova/xinge" />
 		<source-file src="src/android/XGPushCordovaReceiver.java" target-dir="src/com/iiunknown/cordova/xinge" />
-		<source-file src="src/android/UpdateApp.java" target-dir="src/com/iiunknown/cordova/xinge" />
-
-		<source-file src="src/android/libs/android-support-v4.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/jg_filter_sdk_1.1.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/mid-sdk-2.20.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/wup-1.0.0-SNAPSHOT.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/Xg_sdk_v2.39_20150915_1121.jar" target-dir="libs/" />
-		<source-file src="src/android/libs/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi/" />
-		<source-file src="src/android/libs/armeabi/libtpnsWatchdog.so" target-dir="libs/armeabi/" />
-
-        <source-file src="src/android/softupdate_progress.xml" target-dir="res/layout"/>
-		<js-module src="www/updateAppPlugin.js" name="updateAppPlugin">
-        	<clobbers target="window.plugins.updateApp" />
-    	</js-module>
-     </platform>
-    <!-- ios -->
-    <platform name="ios">    
-        <config-file target="config.xml" parent="/*">
-            <feature name="Xinge">
-                <param name="ios-package" value="CDVXinge" /> 
-            </feature>
-        </config-file>
-        <header-file src="src/ios/libs/XGPush.h" />
-        <header-file src="src/ios/CDVXinge.h" />
-	    <source-file src="src/ios/CDVXinge.m" />
-        <framework src="CFNetwork.framework"  framework="true"/>
-        <framework src="SystemConfiguration.framework"  framework="true"/>
-        <framework src="CoreTelephony.framework"  framework="true"/>
-        <framework src="libz.dylib"  framework="true"/>
-        <framework src="libsqlite3.dylib"  framework="true"/>
-        <framework src="src/ios/libs/libXG-SDK.a" framework="true" />
-    </platform>
-
+		<!-- <source-file src="libs/android/V2.45/libs/android-support-v4.jar" target-dir="libs"/> -->
+		<source-file src="libs/android/V2.45/libs/jg_filter_sdk_1.1.jar" target-dir="libs" />
+		<source-file src="libs/android/V2.45/libs/Xg_sdk_v2.45_20160510_1845.jar" target-dir="libs" />
+		<source-file src="libs/android/V2.45/libs/wup-1.0.0.E-SNAPSHOT.jar" target-dir="libs" />
+		<source-file src="libs/android/V2.45/Other-Platform-SO/armeabi/libtpnsSecurity.so" target-dir="libs/armeabi" />
+		<source-file src="libs/android/V2.45/Other-Platform-SO/armeabi/libxguardian.so" target-dir="libs/armeabi" />
+		<!--
+		<source-file src="libs/android/V2.45/Other-Platform-SO/armeabi-v7a/libtpnsSecurity.so" target-dir="libs/armeabi-v7a"/>
+		<source-file src="libs/android/V2.45/Other-Platform-SO/armeabi-v7a/libxguardian.so" target-dir="libs/armeabi-v7a"/>
+		-->
+	</platform>
+	<!-- ios -->
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="Xinge">
+				<param name="ios-package" value="CDVXinge" />
+				<param name="onload" value="true" />
+			</feature>
+		</config-file>
+		<config-file parent="XingeVariables" target="*-Info.plist">
+			<dict>
+				<key>
+					XG_V2_ACCESS_ID
+				</key>
+				<integer>
+					$XG_IOS_ACCESS_ID
+				</integer>
+				<key>
+					XG_V2_ACCESS_KEY
+				</key>
+				<string>
+					$XG_IOS_ACCESS_KEY
+				</string>
+			</dict>
+		</config-file>
+		<header-file src="libs/ios/V2.4.9/XGPush.h" />
+		<header-file src="libs/ios/V2.4.9/XGSetting.h" />
+		<source-file framework="true" src="libs/ios/V2.4.9/libXG-SDK.a" />
+		<header-file src="src/ios/CDVAppDelegate+CDVXinge.h" />
+		<source-file src="src/ios/CDVAppDelegate+CDVXinge.m" />
+		<header-file src="src/ios/CDVXinge.h" />
+		<source-file src="src/ios/CDVXinge.m" />
+		<framework src="libz.dylib" />
+		<framework src="libsqlite3.dylib" />
+		<framework src="CFNetwork.framework" />
+		<framework src="SystemConfiguration.framework" />
+		<framework src="CoreTelephony.framework" />
+		<framework src="Security.framework" />
+	</platform>
 </plugin>

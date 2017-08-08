@@ -1,7 +1,12 @@
 var xingePlugin = {};
 
 // XGPushManager功能类方法代理开始
-//启动并注册APP，同时绑定账号。
+/**
+ * 注册设备
+ * @param  {string } account 可选项，设备注册账号。如果为空，则只注册设备，设备只能收到广播的推送信息；如果不为空，设备以此账号注册，设备可以接受广播信息，也可以接受推送到此账号的信息。
+ * @param  {function} successCallback 成功后的执行方法。
+ * @param  {function} errorCallback 失败后的执行方法。
+ */
 xingePlugin.register = function (account, successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "Xinge", "register", [account]);
 };
@@ -26,9 +31,9 @@ xingePlugin.getToken = function(successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "Xinge", "getToken", []);
 }
 //配置accessId和accessKey
-xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
-    cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
-};
+// xingePlugin.config = function(accessId, accessKey, successCallback, errorCallback){
+//     cordova.exec(successCallback, errorCallback, "Xinge", "config", [accessId, accessKey]);
+// };
 //获取当前应用包名
 xingePlugin.getPackageName = function(successCallback, errorCallback){
     cordova.exec(successCallback, errorCallback, "Xinge", "getPackageName", []);
@@ -67,8 +72,14 @@ xingePlugin.notify = function (title,content,successCallback, errorCallback) {
 };
 
 //for iOS only
-xingePlugin.registerDevice = function(successCallback, errorCallback){
-    cordova.exec(successCallback, errorCallback, "Xinge", "registerDevice", []);
+/**
+ * 只在iOS上适用。设置应用程序图标角标。
+ * @param  {int} badge 角标数字
+ * @param  {any} successCallback
+ * @param  {any} errorCallback
+ */
+xingePlugin.setBadge = function (badge, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "Xinge", "setBadge", [badge]);
 };
 
 module.exports = xingePlugin;
